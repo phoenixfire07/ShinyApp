@@ -259,7 +259,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="RFin30.png", height=500, width=900)
+                                 plotOutput("RFRiskPlot")
                                  ),
                         
                         
@@ -272,7 +272,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="MIin30.png", height=500, width=900)
+                                 plotOutput("MIRiskPlot")
                                  ),
                         
                         
@@ -285,7 +285,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="TIAin30.png", height=500, width=900)
+                                 plotOutput("TIARiskPlot")
                                  ),
                         
                         
@@ -298,7 +298,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="CDiff.png", height=500, width=900)
+                                 plotOutput("CDiffRiskPlot")
                                  ),
                         
                         
@@ -311,7 +311,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="NNdied90.png", height=500, width=900)
+                                 plotOutput("d90RiskPlot")
                                  ),
                         
                         tabPanel("CIin30",
@@ -323,7 +323,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="CIin30.png", height=500, width=900)
+                                 plotOutput("CIRiskPlot")
                                  ),
                         
                         tabPanel("Infection",
@@ -335,7 +335,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
-                                 tags$img(src="infection.png", height=500, width=900)
+                                 plotOutput("InfectionRiskPlot")
                         )
                         
                         ))

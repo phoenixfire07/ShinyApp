@@ -45,7 +45,37 @@ shinyServer(function(input, output) {
   modelCompareInfection <- read.csv("csvs/InfectionModels.csv")
  
   
+#NN Plots -------------------------------------------------
 
+output$RFRiskPlot<- renderPlot({
+      plot(NNRF, rep="best")
+})
+  
+output$MIRiskPlot<- renderPlot({
+    plot(NNMI, rep="best")
+})
+
+output$TIARiskPlot<- renderPlot({
+  plot(NNTIA, rep="best")
+})
+
+output$CDiffRiskPlot<- renderPlot({
+  plot(NNCDiff, rep="best")
+})
+
+output$d90RiskPlot<- renderPlot({
+  plot(NNd90, rep="best")
+})
+
+output$CIRiskPlot<- renderPlot({
+  plot(NNCI, rep="best")
+})
+
+output$InfectionRiskPlot<- renderPlot({
+  plot(NNInfection, rep="best")
+})
+
+#End of NN Plots -------------------------------------------------
  
 # Renal Failure Risk Estimate -----------------------------------------------------------
   
