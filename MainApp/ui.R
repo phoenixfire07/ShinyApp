@@ -104,7 +104,8 @@ shinyUI(
                                       "Renal Failure"="yearlyRF",
                                       "Clostridium Difficile "="yearlyCDiff",
                                       "90 Day Mortality"="yearlyd90",
-                                      "Chest Infection"="yearlyCI"))
+                                      "Chest Infection"="yearlyCI",
+                                      "Infection"="yearlyInfection"))
                       ),
                       mainPanel(
                         plotOutput("yearlyStatsPlot")
@@ -135,7 +136,7 @@ shinyUI(
                                      margin-left: auto;
                                      margin-right: auto;
                                      width: 50%;",
-                                  tags$img(src="ucl.png", height=90, width=260)
+                                  tags$img(src="ucl.png", height=90, width=270)
                                   ),
                                  tags$br(),
                                  tags$br() 
@@ -323,7 +324,19 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$img(src="CIin30.png", height=500, width=900)
-                                 )
+                                 ),
+                        
+                        tabPanel("Infection",
+                                 tags$h2("Infection Risk Profile"),
+                                 tags$h6("Please enter patient information and click 'Esitmate Risk' to generate  a risk profile for this complication."),
+                                 actionButton("Infectionbtn", "Estimate Risk"),
+                                 tags$h3(textOutput("Infection")),
+                                 tags$br(),
+                                 tags$h5(tags$b("About this model:")),
+                                 tags$h5(aboutRisk),
+                                 tags$h5(riskLevels),
+                                 tags$img(src="infection.png", height=500, width=900)
+                        )
                         
                         ))
                       
@@ -349,7 +362,8 @@ shinyUI(
                                       "Renal Failure"="aboutRF", 
                                       "Clostridium Difficile "="aboutCDiff", 
                                       "90 Day Mortality"="aboutd90", 
-                                      "Chest Infection"="aboutCI")),
+                                      "Chest Infection"="aboutCI",
+                                      "Infection"="aboutInfection")),
                         actionButton("aboutModelBtn", "Explore Model")
                       ),
                       
@@ -372,7 +386,16 @@ shinyUI(
                       
                       
              tabPanel("Model Selection",
-                      sidebarPanel("hello",
+                      sidebarPanel(tags$h3(tags$b("Selecting a Machine Learning Model")),
+                                   tags$h5("In order to select a model that was suitable for 
+                                           investigating the Hospital Episode Statistics dataset and predicting 
+                                           risk profiles, Logistic Regression (LR), Random Forest (RF), and Neural Networks (NN) with 
+                                           one and two hidden layers were used. "),
+                                   tags$h5("For model selection, it was important that for each complication, the model was not only accurate, 
+                                           but also had high sensitvity (the ability to identify cases with complications). Because complications are rare,
+                                           occuring in roughly 2% of patients, a model would be highly accurate (98%) by predicting a negative outcome for every episode,
+                                           however, this model would have 0% selectivity. In order to explore how Neural Networks were selected as the model of choice, select a complication
+                                           below to compare the machine learning models."),
                                    radioButtons(inputId = "modelCompare", label="Please select a complication to compare model performance:",
                                           c(
                                                   "Transient Ischemic Attack"="compareTIA",
@@ -380,21 +403,37 @@ shinyUI(
                                                   "Renal Failure"="compareRF",
                                                   "Clostridium Difficile "="compareCDiff",
                                                   "90 Day Mortality"="compared90",
+                                                  "Infection"="compareInfection",
                                                   "Chest Infection"="compareCI"))
                                    ),
                       mainPanel(
                         
                         tabsetPanel(type="tab",
                                   tabPanel("Model Selection",
-                                           tags$h3("How neural networks predicted outcome of complications:"),
-                                           plotOutput("modelComparisonPlot")),
+                                           tags$h3("How Neural Networks Predict Liklihood of Complications"),
+                                           tags$h5(tags$b("How to interepret this plot:")),
+                                           tags$h5("Since models with high accuracy and high selectivity are desireable, the best models
+                                                   for this particilar dataset should appear in the upper-righthand quadrand of these plots. These 
+                                                   models all have accuracy over 70% and high selectivity compared with other tested machine learning models."),
+                                           plotOutput("modelComparisonPlot"),
+                                           tags$h5(tags$b("LR= Logistic Regression, RF= Random Forest, NN1=Neural Network with 1 Hidden Layer (Model Used For THR Risk App),
+                                                          NN2= Neural Network with 2 Hidden Layers"))),
+                                  
                                   tabPanel("Neural Network Performance",
-                                           plotOutput("modelPerformancePlot"))
+                                           tags$h5(tags$b("How to interepret this plot:")),
+                                           tags$h5("Neural Networks with one hidden layer were chosen as the underlying model for the THR Risk Assessment Application. 
+                                                   While these models performed the best when compared to other machine learning models such as Logistic Regression and Random Forest,
+                                                   their ability to correctly predict surgical risk varied by complication. Only complications for which risk could be 
+                                                   reliably assessed were included in the THR Risk Assessment Application."),
+                                           plotOutput("modelPerformancePlot"),
+                                           tags$h5(tags$b("CDiff=Clostridium Difficile, CIin30= Chest Infection in 30 Days, CVAin30= Cerebrovascular Accident in 30 Days, 
+                                                            died90= Death in 90 Days, Dis18m= Dislocation within 18 months, DVTin90= Deep vein thrombosis within 90 days,
+                                                            MIin30= Myocardial infarction within 30 days,PEin90= Pulmonary embolism within 90 days,
+                                                          RFin30=Renal Failure within 30 days, TIAin30= Transient ischemic attack within 30 days")))
                        )
                       )
                                            
-                                           ),
-             tabPanel("Explore Dataset")
+                                           )
   )
   
   

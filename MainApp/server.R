@@ -5,6 +5,7 @@ library(caret)
 library(ggplot2)
 
 
+
 shinyServer(function(input, output) {
 # importing neural network models 
   
@@ -14,6 +15,7 @@ shinyServer(function(input, output) {
   NNCDiff<- readRDS("NN/CDiff.rda")
   NNCI<- readRDS("NN/CIin30.rda")
   NNTIA<- readRDS("NN/TIAin30.rda")
+  NNInfection<- readRDS("NN/Infection.rda")
   
   #importing plot csv files
   
@@ -23,6 +25,7 @@ shinyServer(function(input, output) {
   aboutPlotRF <- read.csv("csvs/RFin30.csv")
   aboutPlotTIA <- read.csv("csvs/TIAin30.csv")
   aboutPlotd90 <- read.csv("csvs/died90.csv")
+  aboutPlotInfection <- read.csv("csvs/Infection.csv")
   
   #importing yearly surgery stats file
   years<- read.csv("csvs/yearlyStats.csv")
@@ -39,6 +42,7 @@ shinyServer(function(input, output) {
   modelCompareTIA <- read.csv("csvs/TIAModels.csv")
   modelCompareMI <- read.csv("csvs/MIin30Models.csv")
   modelCompared90 <- read.csv("csvs/died90Models.csv")
+  modelCompareInfection <- read.csv("csvs/InfectionModels.csv")
  
   
 
@@ -369,6 +373,63 @@ shinyServer(function(input, output) {
     textCI()
   })
   
+  # end of CI risk estimate---------------------------------------------------------------------
+  
+  
+  #infectionRisk Estimate -----------------------------------------------------------------------------
+  
+  textInfection<- eventReactive(input$Infectionbtn,{
+    
+    age<- ((input$Age-1)/108)
+    
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
+                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    
+    pred_infection<-compute((NNInfection),response)
+    
+    pred_infection<-unlist(pred_infection)
+    
+    pred_infection<-pred_infection["net.result"]
+    
+    pred_infection<- unname(pred_infection)
+    
+    if(pred_infection>.75){
+      "Based on the patient information provided, the neural network estimates this patient to be in the
+      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Death within 90 days 
+      post THR surgery"
+    }
+    else if(pred_infection>.50 && pred_infection<0.75)  {
+      
+      "Based on the patient information provided, the neural network estimates this patient to be in the
+      HIGHER risk category. This patient falls in the upper third quartile for risk of Death within 90 days 
+      post THR surgery"
+      
+    }
+    
+    else if(pred_infection>.25 && pred_infection<0.5)  {
+      
+      "Based on the patient information provided, the neural network estimates this patient to be in the
+      MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
+      post THR surgery"
+      
+    }
+    
+    else{
+      "Based on the patient information provided, the neural network estimates this patient to be in the
+      LOWEST risk category. This patient falls in the lowest quartile for risk of Death within 90 days 
+      post THR surgery."
+      
+      
+    }
+    
+    })
+  
+  output$Infection <- renderText({
+    textInfection()
+  })
+  
+  #End of infection Risk Estimate -----------------------------------------------------------------------------
+  
   # generating about barplots for 'About Model' section --------------------------
   
   aboutModelPlot<- eventReactive(input$aboutModelBtn,{
@@ -457,6 +518,20 @@ shinyServer(function(input, output) {
       renderPlot(d90plot)
     }
     
+    if(input$AboutModel=="aboutInfection"){
+      
+      d90plot<- barplot(c(aboutPlotInfection$Accuracy,aboutPlotInfection$Specificity,aboutPlotInfection$Sensitivity),
+                        names.arg = c("Accuracy","Specificity","Sensitivity"), 
+                        main="About Infection Risk Model",
+                        horiz = F, 
+                        ylim=c(0,100),  
+                        col = "turquoise4", 
+                        width = 1,
+                        las=2)
+      
+      renderPlot(d90plot)
+    }
+    
     
     
     
@@ -515,6 +590,12 @@ shinyServer(function(input, output) {
         labs(title= "Total cases of Chest Infection resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
+    
+    else if(input$yearlyStats=="yearlyInfection"){
+      ggplot(aes(y=years$infection,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
+        labs(title= "Total cases of Chest Infection resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        scale_x_continuous(breaks=seq(2005,2014,1))
+    }
   })  
   
   
@@ -528,7 +609,7 @@ shinyServer(function(input, output) {
     theme(axis.text.x = element_text(angle = 90, hjust = 1))+
     ylim(0,100)+
     xlab("Complication")+
-    ylab("")+
+    ylab("Percent")+
     labs(fill="Model Property")
   })
   
@@ -606,6 +687,18 @@ shinyServer(function(input, output) {
         xlim(40,100)+ylim(30,60)+
         geom_vline(xintercept = 70) + 
         geom_hline(yintercept = 45) +
+        xlab("Accuracy")+
+        ylab("Sensitivity")+
+        labs(color="Model")
+    }
+    
+    else if(input$modelCompare=="compareInfection"){
+      ggplot(data=modelCompareInfection , aes(x=modelCompareInfection$Acc,y=modelCompareInfection$Sen,size=3, color=modelCompareInfection$model))+ 
+        scale_size(guide="none")+
+        geom_point() + 
+        xlim(40,100)+ylim(0,50)+
+        geom_vline(xintercept = 70) + 
+        geom_hline(yintercept = 25) +
         xlab("Accuracy")+
         ylab("Sensitivity")+
         labs(color="Model")

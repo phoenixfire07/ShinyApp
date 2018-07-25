@@ -1,0 +1,12 @@
+name: MainApp
+title: MainApp
+username:
+account: phoebestaab
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 387700
+bundleId: 1498860
+url: https://phoebestaab.shinyapps.io/MainApp/
+when: 1532515381.87985
+asMultiple: FALSE
+asStatic: FALSE
