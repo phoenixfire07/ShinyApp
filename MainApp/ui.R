@@ -6,7 +6,7 @@ library(caret)
 
 # About the model--------------------------------
 
-AboutNN <-"A single hidden layer neural network was selected as the model for the THR Risk Assessment App. The model performed relatively well
+AboutNN <-"A single hidden layer neural network was selected as the model for the THR Risk Assessment Application. The model performed relatively well
 when compared to alternatives for two important parameter: Accuracy and Sensitivity. For a detailed comparison to other models, please see the Model Selection section.
 When using a tool based on a predictive model, it is important to understand the overall reliability of the model. As such, a detailed description 
 of the Accuracy, Sensitivity and Specificty of the model for each complication is provided."
