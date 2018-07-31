@@ -103,18 +103,18 @@ output$InfectionRiskPlot<- renderPlot({
     else if(pred_RF>.50 && pred_RF<0.75)  {
     
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Renal Failure within 30 days 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Renal Failure within 30 days 
       post THR surgery"
       
     }
     
-    else if(pred_RF>.25 && pred_RF<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Renal Failure within 30 days 
-      post THR surgery"
-      
-    }
+    # else if(pred_RF>.25 && pred_RF<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Renal Failure within 30 days 
+    #   post THR surgery"
+    #   
+    # }
     
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
@@ -158,18 +158,18 @@ output$InfectionRiskPlot<- renderPlot({
     else if(pred_MI>.50 && pred_MI<0.75)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Myocardial infarction within 30 days 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Myocardial infarction within 30 days 
       post THR surgery"
       
     }
     
-    else if(pred_MI>.25 && pred_MI<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Myocardial infarction within 30 days 
-      post THR surgery"
-      
-    }
+    # else if(pred_MI>.25 && pred_MI<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Myocardial infarction within 30 days 
+    #   post THR surgery"
+    #   
+    # }
     
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
@@ -212,18 +212,18 @@ output$InfectionRiskPlot<- renderPlot({
     else if(pred_TIA>.50 && pred_TIA<0.75)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Transient Ischemic Attack within 30 days 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Transient Ischemic Attack within 30 days 
       post THR surgery"
       
     }
     
-    else if(pred_TIA>.25 && pred_TIA<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Transient Ischemic Attack within 30 days 
-      post THR surgery"
-      
-    }
+    # else if(pred_TIA>.25 && pred_TIA<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Transient Ischemic Attack within 30 days 
+    #   post THR surgery"
+    #   
+    # }
     
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
@@ -266,18 +266,18 @@ output$InfectionRiskPlot<- renderPlot({
     else if(pred_CDiff>.50 && pred_CDiff<0.75)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Clostridium Difficile 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Clostridium Difficile 
       post THR surgery"
       
     }
     
-    else if(pred_CDiff>.25 && pred_CDiff<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Clostridium Difficile 
-      post THR surgery"
-      
-    }
+    # else if(pred_CDiff>.25 && pred_CDiff<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Clostridium Difficile 
+    #   post THR surgery"
+    #   
+    # }
     
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
@@ -322,19 +322,19 @@ output$InfectionRiskPlot<- renderPlot({
     else if(pred_d90>.50 && pred_d90<0.75)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Death within 90 days 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Death within 90 days 
       post THR surgery"
       
     }
     
-    else if(pred_d90>.25 && pred_d90<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
-      post THR surgery"
-      
-    }
-    
+    # else if(pred_d90>.25 && pred_d90<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
+    #   post THR surgery"
+    #   
+    # }
+    # 
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
       LOWEST risk category. This patient falls in the lowest quartile for risk of Death within 90 days 
@@ -376,18 +376,18 @@ output$InfectionRiskPlot<- renderPlot({
     else if(pred_CI>.50 && pred_CI<0.75)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Chest Infection within 30 days 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Chest Infection within 30 days 
       post THR surgery"
       
     }
     
-    else if(pred_CI>.25 && pred_CI<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Chest Infection within 30 days 
-      post THR surgery"
-      
-    }
+    # else if(pred_CI>.25 && pred_CI<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Chest Infection within 30 days 
+    #   post THR surgery"
+    #   
+    # }
     
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
@@ -425,28 +425,28 @@ output$InfectionRiskPlot<- renderPlot({
     
     if(pred_infection>.75){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Death within 90 days 
+      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Infection 
       post THR surgery"
     }
     else if(pred_infection>.50 && pred_infection<0.75)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHER risk category. This patient falls in the upper third quartile for risk of Death within 90 days 
+      MODERATE risk category. This patient falls in the upper third quartile for risk of Infection
       post THR surgery"
       
     }
     
-    else if(pred_infection>.25 && pred_infection<0.5)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
-      post THR surgery"
-      
-    }
+    # else if(pred_infection>.25 && pred_infection<0.5)  {
+    #   
+    #   "Based on the patient information provided, the neural network estimates this patient to be in the
+    #   MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
+    #   post THR surgery"
+    #   
+    # }
     
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Death within 90 days 
+      LOWEST risk category. This patient falls in the lowest quartile for risk of Infection 
       post THR surgery."
       
       

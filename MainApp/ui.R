@@ -23,10 +23,16 @@ aboutRisk<-
 
 riskLevels<-
   "A LOW risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 0-25%. A MODERATE risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 26-50%. A HIGHER risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 50-75%. A HIGHEST risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
+between 0-50%. A MODERATE risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
+between 50-75%%.  A HIGH risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
 between 75-100%. All risk estimates are based on a patients similarity to those who have suffered from compliation in the past."
+
+riskNote<-"
+NOTE: The LOW Risk category was broadly defined as being estimated as 0-50% probability because the models used were trained on an oversampled dataset. In
+such datasets, episodes resulting in complications are oversampled in order to train the Neural Network on a robust selection of 
+positive outcome episodes. In this case, the original dataset had a ratio of roughly 50:1 (No-Complication:Complication). The resampled dataset on which
+the model was trained had a 2:1 ratio. While this improved the classification model substantailly, it can also lead to an over estimation of risk,
+which is why the net has been widened for the LOW risk category. However, this should be taken into account for all risk estimates." 
   
 exploringModel<- "The THR Risk Assessment model was trained and tested on a dataset of over 500,000 THR episodes recorded by Hospital Episode
   Statistics (HES), which provides access to inpatient data on all joint replacements performed in the English National Health Service (NHS).
@@ -259,6 +265,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("RFRiskPlot")
                                  ),
                         
@@ -272,6 +279,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("MIRiskPlot")
                                  ),
                         
@@ -285,6 +293,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("TIARiskPlot")
                                  ),
                         
@@ -298,6 +307,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("CDiffRiskPlot")
                                  ),
                         
@@ -311,6 +321,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("d90RiskPlot")
                                  ),
                         
@@ -323,6 +334,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("CIRiskPlot")
                                  ),
                         
@@ -335,6 +347,7 @@ shinyUI(
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
+                                 tags$h5(tags$b(riskNote)),
                                  plotOutput("InfectionRiskPlot")
                         )
                         
