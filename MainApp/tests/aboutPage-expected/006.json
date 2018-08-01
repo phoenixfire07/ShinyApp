@@ -1,0 +1,74 @@
+{
+  "input": {
+    "AboutModel": "aboutd90",
+    "aboutModelBtn": 5,
+    "AF": "0",
+    "Age": 65,
+    "Alz": "0",
+    "CDiffbtn": 0,
+    "CIbtn": 0,
+    "CIHD": "0",
+    "COPD": "0",
+    "d90btn": 0,
+    "Dementia": "0",
+    "DU": "0",
+    "HC": "0",
+    "HCD": "0",
+    "HCVA": "0",
+    "HT": "0",
+    "Hyperthyroidism": "0",
+    "Hypothyroidism": "0",
+    "IDDM": "0",
+    "Infectionbtn": 0,
+    "MIbtn": 0,
+    "modelCompare": "compareTIA",
+    "NIDDM": "0",
+    "Osteoporosis": "0",
+    "RFbtn": 0,
+    "Sex": "0.1111111111",
+    "TIAbtn": 0,
+    "yearlyStats": "yearlyTotal"
+  },
+  "output": {
+    "yearlyStatsPlot": {
+      "src": "[image data sha1: 640a70a71003aef4eadbad7a3fc58aad97295599]",
+      "width": 591,
+      "height": 400,
+      "coordmap": [
+        {
+          "panel": 1,
+          "row": 1,
+          "col": 1,
+          "panel_vars": {
+
+          },
+          "scale_x": 1,
+          "scale_y": 1,
+          "log": {
+            "x": null,
+            "y": null
+          },
+          "domain": {
+            "left": 2004.55,
+            "right": 2014.45,
+            "bottom": 30879.6,
+            "top": 68530.4
+          },
+          "mapping": {
+            "x": "years$year",
+            "y": "years$total"
+          },
+          "range": {
+            "left": 50.6199031464041,
+            "right": 585.520547945206,
+            "bottom": 369.795721717064,
+            "top": 24.0290131340161
+          }
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
