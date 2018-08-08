@@ -21,11 +21,12 @@ aboutRisk<-
   high-risk cases. The single hidden layer neural network below was developed specifically for this complication using the neuralnet package
   and is the basis of the risk estimations provided. To learn more about the model, please see the About Model section."
 
+
 riskLevels<-
   "A LOW risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 0-50%. A MODERATE risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 50-75%%.  A HIGH risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 75-100%. All risk estimates are based on a patients similarity to those who have suffered from compliation in the past."
+between 0-50%. A HIGH risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be higher
+than the high risk threshold set in the input panel. Any risk probability falling in between is considered MODERATE risk.
+All risk estimates are based on a patients similarity to those who have suffered from compliation in the past."
 
 riskNote<-"
 NOTE: The LOW Risk category was broadly defined as being estimated as 0-50% probability because the models used were trained on an oversampled dataset. In
@@ -79,6 +80,12 @@ exploreModel<-
   "In order to understand the underlying predictive model from which risk profile's are derived, further information regarding the characteristics of the neural networks (NNs) used 
 as well as a comparison between NNs and other predictive modeling methods can be found in the 'About Model' and 'Model Selection' sections of the App."
   
+VarImpKey<-"1=Age, 2=Sex ,3= Chronic Ischemic Heart Disease, 
+4=Hyperthyroidism, 5=Hypothyroidism, 6=Insulin-Dependent Diabetes Mellitus ,
+7=Non-Insulin-Dependent Diabetes Mellitus ,8=History of Circulatory Disease , 
+9=Chronic obstructive pulmonary disease , 10=Dementia, 11=Alzheimer’s, 12= Osteporosis, 
+13=Hypercholestrolemia, 14=Hemorrhagic Cerebrovascular Accident , 15=Duodenal Ulcers,16= Hypertension, 17=Atrial fibrillation "
+
 shinyUI(
   navbarPage(
             theme = shinytheme("cosmo"),
@@ -166,7 +173,7 @@ shinyUI(
                       
                       
                       
-                      sidebarPanel(tags$h3("Please enter patient information:"),
+                      sidebarPanel(tags$h3("Patient information input panel:"),
                                    sliderInput(inputId = "Age", label = "Select Age", value = 65, min = 30, max=110),
                                    
                                    radioButtons(inputId = "Sex", label="Gender:",
@@ -174,7 +181,7 @@ shinyUI(
                                                   "Female"=.222222222
                                                 )),
                                    
-                                   selectInput(inputId = "CIHD", label="Does the patient have a history with CIHD?",
+                                   selectInput(inputId = "CIHD", label="Does the patient have a history with Chronic Ischemic Heart Disease (CIHD)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -189,31 +196,31 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "HT", label="Does the patient have a history with HT?",
+                                   selectInput(inputId = "HT", label="Does the patient have a history with Hypertension (HT)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
-                                   selectInput(inputId = "AF", label="Does the patient have a history with AF?",
-                                               c("No"=0,
-                                                 "Yes"=1
-                                               )),
-                                   
-                                   selectInput(inputId = "IDDM", label="Does the patient have a history with IDDM?",
+                                   selectInput(inputId = "AF", label="Does the patient have a history with Atrial fibrillation (AF)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "NIDDM", label="Does the patient have a history with NIDDM?",
+                                   selectInput(inputId = "IDDM", label="Does the patient have a history with Insulin-Dependent Diabetes Mellitus (IDDM)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "HCD", label="Does the patient have a history with HCD?",
+                                   selectInput(inputId = "NIDDM", label="Does the patient have a history with Non-Insulin-Dependent Diabetes Mellitus (NIDDM)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "COPD", label="Does the patient have a history with COPD?",
+                                   selectInput(inputId = "HCD", label="Does the patient have a history with Circulatory Disease?",
+                                               c("No"=0,
+                                                 "Yes"=1
+                                               )),
+                                   
+                                   selectInput(inputId = "COPD", label="Does the patient have a history with Chronic Obstructive Pulmonary Disease (COPD)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -223,12 +230,12 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "HC", label="Does the patient have a history with HC?",
+                                   selectInput(inputId = "HC", label="Does the patient have a history with Hypercholestrolemia (HC)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "HCVA", label="Does the patient have a history with HCVA?",
+                                   selectInput(inputId = "HCVA", label="Does the patient have a history with Hemorrhagic Cerebrovascular Accident (HCVA)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -243,10 +250,13 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "DU", label="Does the patient have a history with DU?",
+                                   selectInput(inputId = "DU", label="Does the patient have a history with Duodenal Ulcers (DU)?",
                                                c("No"=0,
                                                  "Yes"=1
-                                               ))
+                                               )),
+                                   sliderInput(inputId = "Threshold", label = "Select Probability Estimate for High Risk. (Ex:
+                                               Selecting 75 means that if the neural network estimates a risk of complication is 75% 
+                                              or greater, the patient will be placed in the 'HIGH' risk category.)", value = 75, min = 55, max=95, step=10)
                                   
                                 
                                    ),
@@ -266,7 +276,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("RFRiskPlot")
+                                 plotOutput("RFRiskPlot"),
+                                 plotOutput("RFVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         
@@ -280,7 +292,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("MIRiskPlot")
+                                 plotOutput("MIRiskPlot"),
+                                 plotOutput("MIVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         
@@ -294,7 +308,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("TIARiskPlot")
+                                 plotOutput("TIARiskPlot"),
+                                 plotOutput("TIAVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         
@@ -308,7 +324,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("CDiffRiskPlot")
+                                 plotOutput("CDiffRiskPlot"),
+                                 plotOutput("CDiffVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         
@@ -322,7 +340,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("d90RiskPlot")
+                                 plotOutput("d90RiskPlot"),
+                                 plotOutput("d90VarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         tabPanel("CIin30",
@@ -335,7 +355,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("CIRiskPlot")
+                                 plotOutput("CIRiskPlot"),
+                                 plotOutput("CIVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         tabPanel("Infection",
@@ -348,7 +370,9 @@ shinyUI(
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("InfectionRiskPlot")
+                                 plotOutput("InfectionRiskPlot"),
+                                 plotOutput("InfectionVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                         )
                         
                         ))

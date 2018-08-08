@@ -3,6 +3,7 @@ library(shiny)
 library(neuralnet)
 library(caret)
 library(ggplot2)
+library(NeuralNetTools)
 
 
 
@@ -76,11 +77,45 @@ output$InfectionRiskPlot<- renderPlot({
 })
 
 #End of NN Plots -------------------------------------------------
+
+# Variable Importance Plots--------------------------------------------
+
+output$RFVarImpPlot<- renderPlot({
+  olden(NNRF, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+output$MIVarImpPlot<- renderPlot({
+  olden(NNMI, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+output$TIAVarImpPlot<- renderPlot({
+  olden(NNTIA, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+output$CDiffVarImpPlot<- renderPlot({
+  olden(NNCDiff, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+output$d90VarImpPlot<- renderPlot({
+  olden(NNd90, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+output$CIVarImpPlot<- renderPlot({
+  olden(NNCI, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+output$InfectionVarImpPlot<- renderPlot({
+  olden(NNInfection, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+})
+
+# End of Variable Importance Plots--------------------------------------------
  
 # Renal Failure Risk Estimate -----------------------------------------------------------
   
   
   textRF<- eventReactive(input$RFbtn,{
+    
+    threshold<- input$Threshold/100
     
     age<- ((input$Age-1)/108)
     
@@ -95,33 +130,20 @@ output$InfectionRiskPlot<- renderPlot({
 
     pred_RF<- unname(pred_RF)
     
-    if(pred_RF>.75){
+    if(pred_RF>threshold){
+      threshold
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Renal Failure within 30 days 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_RF>.50 && pred_RF<0.75)  {
-    
+    else if(pred_RF>.50 && pred_RF< threshold)  {
+      threshold
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Renal Failure within 30 days 
-      post THR surgery"
-      
+      MODERATE risk category."
     }
-    
-    # else if(pred_RF>.25 && pred_RF<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Renal Failure within 30 days 
-    #   post THR surgery"
-    #   
-    # }
-    
     else{
+      threshold
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Renal Failure within 30 days 
-      post THR surgery."
-       
-       
+      LOW risk category."
     }
    
   })
@@ -137,6 +159,8 @@ output$InfectionRiskPlot<- renderPlot({
 
   textMI<- eventReactive(input$MIbtn,{
     
+    threshold<- input$Threshold/100
+    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
@@ -150,31 +174,18 @@ output$InfectionRiskPlot<- renderPlot({
     
     pred_MI<- unname(pred_MI)
     
-    if(pred_MI>.75){
+    if(pred_MI>threshold){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Myocardial infarction within 30 days 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_MI>.50 && pred_MI<0.75)  {
+    else if(pred_MI>.50 && pred_MI<threshold)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Myocardial infarction within 30 days 
-      post THR surgery"
-      
+      MODERATE risk category."
     }
-    
-    # else if(pred_MI>.25 && pred_MI<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Myocardial infarction within 30 days 
-    #   post THR surgery"
-    #   
-    # }
-    
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Myocardial infarction within 30 days 
-      post THR surgery."
+      LOW risk category."
       
       
     }
@@ -191,6 +202,8 @@ output$InfectionRiskPlot<- renderPlot({
   
   textTIA<- eventReactive(input$TIAbtn,{
     
+    threshold<- input$Threshold/100
+    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
@@ -204,31 +217,19 @@ output$InfectionRiskPlot<- renderPlot({
     
     pred_TIA<- unname(pred_TIA)
     
-    if(pred_TIA>.75){
+    if(pred_TIA>threshold){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Transient Ischemic Attack within 30 days 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_TIA>.50 && pred_TIA<0.75)  {
+    else if(pred_TIA>.50 && pred_TIA<threshold)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Transient Ischemic Attack within 30 days 
-      post THR surgery"
+      MODERATE risk category."
       
     }
-    
-    # else if(pred_TIA>.25 && pred_TIA<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Transient Ischemic Attack within 30 days 
-    #   post THR surgery"
-    #   
-    # }
-    
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Transient Ischemic Attack within 30 days 
-      post THR surgery."
+      LOW risk category."
       
       
     }
@@ -245,6 +246,8 @@ output$InfectionRiskPlot<- renderPlot({
   
   textCDiff<- eventReactive(input$CDiffbtn,{
     
+    threshold<- input$Threshold/100
+    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
@@ -258,32 +261,19 @@ output$InfectionRiskPlot<- renderPlot({
     
     pred_CDiff<- unname(pred_CDiff)
     
-    if(pred_CDiff>.75){
+    if(pred_CDiff>threshold){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Clostridium Difficile 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_CDiff>.50 && pred_CDiff<0.75)  {
+    else if(pred_CDiff>.50 && pred_CDiff<threshold)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Clostridium Difficile 
-      post THR surgery"
+      MODERATE risk category."
       
     }
-    
-    # else if(pred_CDiff>.25 && pred_CDiff<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Clostridium Difficile 
-    #   post THR surgery"
-    #   
-    # }
-    
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Clostridium Difficile 
-      post THR surgery."
-      
+      LOW risk category."
       
     }
     
@@ -301,6 +291,8 @@ output$InfectionRiskPlot<- renderPlot({
   
   textd90<- eventReactive(input$d90btn,{
     
+    threshold<- input$Threshold/100
+    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
@@ -314,31 +306,20 @@ output$InfectionRiskPlot<- renderPlot({
     
     pred_d90<- unname(pred_d90)
     
-    if(pred_d90>.75){
+    if(pred_d90>threshold){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Death within 90 days 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_d90>.50 && pred_d90<0.75)  {
+    else if(pred_d90>.50 && pred_d90<threshold)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Death within 90 days 
-      post THR surgery"
+      MODERATE risk category."
       
     }
     
-    # else if(pred_d90>.25 && pred_d90<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
-    #   post THR surgery"
-    #   
-    # }
-    # 
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Death within 90 days 
-      post THR surgery."
+      LOW risk category."
       
       
     }
@@ -355,6 +336,8 @@ output$InfectionRiskPlot<- renderPlot({
   
   textCI<- eventReactive(input$CIbtn,{
     
+    threshold<- input$Threshold/100
+    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
@@ -368,31 +351,19 @@ output$InfectionRiskPlot<- renderPlot({
     
     pred_CI<- unname(pred_CI)
     
-    if(pred_CI>.75){
+    if(pred_CI>threshold){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Chest Infection within 30 days 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_CI>.50 && pred_CI<0.75)  {
+    else if(pred_CI>.50 && pred_CI<threshold)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Chest Infection within 30 days 
-      post THR surgery"
+      MODERATE risk category."
       
     }
-    
-    # else if(pred_CI>.25 && pred_CI<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Chest Infection within 30 days 
-    #   post THR surgery"
-    #   
-    # }
-    
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Chest Infection within 30 days 
-      post THR surgery."
+      LOW risk category. "
       
       
     }
@@ -410,6 +381,8 @@ output$InfectionRiskPlot<- renderPlot({
   
   textInfection<- eventReactive(input$Infectionbtn,{
     
+    threshold<- input$Threshold/100
+    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
@@ -423,31 +396,19 @@ output$InfectionRiskPlot<- renderPlot({
     
     pred_infection<- unname(pred_infection)
     
-    if(pred_infection>.75){
+    if(pred_infection>threshold){
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGHEST risk category. This patient falls in the upper-most quartile for risk of Infection 
-      post THR surgery"
+      HIGH risk category."
     }
-    else if(pred_infection>.50 && pred_infection<0.75)  {
+    else if(pred_infection>.50 && pred_infection<threshold)  {
       
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category. This patient falls in the upper third quartile for risk of Infection
-      post THR surgery"
+      MODERATE risk category."
       
     }
-    
-    # else if(pred_infection>.25 && pred_infection<0.5)  {
-    #   
-    #   "Based on the patient information provided, the neural network estimates this patient to be in the
-    #   MODERATE risk category. This patient falls in the second quartile for risk of Death within 90 days 
-    #   post THR surgery"
-    #   
-    # }
-    
     else{
       "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOWEST risk category. This patient falls in the lowest quartile for risk of Infection 
-      post THR surgery."
+      LOW risk category. "
       
       
     }
