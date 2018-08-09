@@ -47,34 +47,71 @@ shinyServer(function(input, output) {
  
   
 #NN Plots -------------------------------------------------
-
-output$RFRiskPlot<- renderPlot({
-      plot(NNRF, rep="best")
-})
   
-output$MIRiskPlot<- renderPlot({
-    plot(NNMI, rep="best")
-})
+  plotNNRF<- eventReactive(input$RFNNbtn,{
+    plotnet(NNRF, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$RFRiskPlot <- renderPlot({
+    plotNNRF()
+  })
+  
+  
+  plotNNMI<- eventReactive(input$MINNbtn,{
+    plotnet(NNMI, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$MIRiskPlot <- renderPlot({
+    plotNNMI()
+  })
+  
+  plotNNd90<- eventReactive(input$d90NNbtn,{
+    plotnet(NNd90, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$d90RiskPlot <- renderPlot({
+    plotNNd90()
+  })
+  
+  plotNNCDiff<- eventReactive(input$CDiffNNbtn,{
+    plotnet(NNCDiff, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$CDiffRiskPlot <- renderPlot({
+    plotNNCDiff()
+  })
+  
+  plotNNCI<- eventReactive(input$CINNbtn,{
+    plotnet(NNCI, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$CIRiskPlot <- renderPlot({
+    plotNNCI()
+  })
+  
+  plotNNTIA<- eventReactive(input$TIANNbtn,{
+    plotnet(NNTIA, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$TIARiskPlot <- renderPlot({
+    plotNNTIA()
+  })
+  
+  plotNNInfection<- eventReactive(input$InfectionNNbtn,{
+    plotnet(NNInfection, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
+    
+  })
+  
+  output$InfectionRiskPlot <- renderPlot({
+    plotNNInfection()
+  })
 
-output$TIARiskPlot<- renderPlot({
-  plot(NNTIA, rep="best")
-})
-
-output$CDiffRiskPlot<- renderPlot({
-  plot(NNCDiff, rep="best")
-})
-
-output$d90RiskPlot<- renderPlot({
-  plot(NNd90, rep="best")
-})
-
-output$CIRiskPlot<- renderPlot({
-  plot(NNCI, rep="best")
-})
-
-output$InfectionRiskPlot<- renderPlot({
-  plot(NNInfection, rep="best")
-})
 
 #End of NN Plots -------------------------------------------------
 
@@ -109,6 +146,16 @@ output$InfectionVarImpPlot<- renderPlot({
 })
 
 # End of Variable Importance Plots--------------------------------------------
+
+
+
+
+
+
+
+
+
+
  
 # Renal Failure Risk Estimate -----------------------------------------------------------
   
@@ -614,9 +661,9 @@ output$InfectionVarImpPlot<- renderPlot({
       ggplot(data=modelCompareTIA, aes(x=modelCompareTIA$Acc,y=modelCompareTIA$Sen,size=3, color=modelCompareTIA$model))+ 
         scale_size(guide="none")+
         geom_point() + 
-        xlim(40,100)+ylim(0,50)+
+        xlim(40,100)+ylim(0,60)+
         geom_vline(xintercept = 70) + 
-        geom_hline(yintercept = 25) +
+        geom_hline(yintercept = 30) +
         xlab("Accuracy")+
         ylab("Sensitivity")+
         labs(color="Model")

@@ -81,7 +81,7 @@ exploreModel<-
 as well as a comparison between NNs and other predictive modeling methods can be found in the 'About Model' and 'Model Selection' sections of the App."
   
 VarImpKey<-"1=Age, 2=Sex ,3= Chronic Ischemic Heart Disease, 
-4=Hyperthyroidism, 5=Hypothyroidism, 6=Insulin-Dependent Diabetes Mellitus ,
+4=Hyperthyroidism (HyperT), 5=Hypothyroidism(HypoT), 6=Insulin-Dependent Diabetes Mellitus ,
 7=Non-Insulin-Dependent Diabetes Mellitus ,8=History of Circulatory Disease , 
 9=Chronic obstructive pulmonary disease , 10=Dementia, 11=Alzheimer’s, 12= Osteporosis, 
 13=Hypercholestrolemia, 14=Hemorrhagic Cerebrovascular Accident , 15=Duodenal Ulcers,16= Hypertension, 17=Atrial fibrillation "
@@ -272,13 +272,16 @@ shinyUI(
                                  actionButton("RFbtn", "Estimate Risk"),
                                  tags$h3(textOutput("RF")),
                                  tags$br(),
+                                 plotOutput("RFVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("RFRiskPlot"),
-                                 plotOutput("RFVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("RFNNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("RFRiskPlot")
                                  ),
                         
                         
@@ -288,13 +291,17 @@ shinyUI(
                                  actionButton("MIbtn", "Estimate Risk"),
                                  tags$h3(textOutput("MI")),
                                  tags$br(),
+                                 plotOutput("MIVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("MIRiskPlot"),
-                                 plotOutput("MIVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("MINNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("MIRiskPlot")
+                                 
                                  ),
                         
                         
@@ -304,13 +311,16 @@ shinyUI(
                                  actionButton("TIAbtn", "Estimate Risk"),
                                  tags$h3(textOutput("TIA")),
                                  tags$br(),
+                                 plotOutput("TIAVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("TIARiskPlot"),
-                                 plotOutput("TIAVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("TIANNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("TIARiskPlot")
                                  ),
                         
                         
@@ -320,13 +330,17 @@ shinyUI(
                                  actionButton("CDiffbtn", "Estimate Risk"),
                                  tags$h3(textOutput("CDiff")),
                                  tags$br(),
+                                 plotOutput("CDiffVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("CDiffRiskPlot"),
-                                 plotOutput("CDiffVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("CDiffNNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("CDiffRiskPlot")
+                                
                                  ),
                         
                         
@@ -336,13 +350,17 @@ shinyUI(
                                  actionButton("d90btn", "Estimate Risk"),
                                  tags$h3(textOutput("d90")),
                                  tags$br(),
+                                 plotOutput("d90VarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("d90RiskPlot"),
-                                 plotOutput("d90VarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("d90NNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("d90RiskPlot")
+                                 
                                  ),
                         
                         tabPanel("CIin30",
@@ -351,13 +369,17 @@ shinyUI(
                                  actionButton("CIbtn", "Estimate Risk"),
                                  tags$h3(textOutput("CI")),
                                  tags$br(),
+                                 plotOutput("CIVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("CIRiskPlot"),
-                                 plotOutput("CIVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("CINNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("CIRiskPlot")
+                          
                                  ),
                         
                         tabPanel("Infection",
@@ -366,13 +388,17 @@ shinyUI(
                                  actionButton("Infectionbtn", "Estimate Risk"),
                                  tags$h3(textOutput("Infection")),
                                  tags$br(),
+                                 plotOutput("InfectionVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$br(),
                                  tags$h5(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 plotOutput("InfectionRiskPlot"),
-                                 plotOutput("InfectionVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 actionButton("InfectionNNbtn", "Show Neural Network"),
+                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
+                                 plotOutput("InfectionRiskPlot")
+                                 
                         )
                         
                         ))
