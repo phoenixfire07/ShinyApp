@@ -81,10 +81,10 @@ exploreModel<-
 as well as a comparison between NNs and other predictive modeling methods can be found in the 'About Model' and 'Model Selection' sections of the App."
   
 VarImpKey<-"1=Age, 2=Sex ,3= Chronic Ischemic Heart Disease, 
-4=Hyperthyroidism (HyperT), 5=Hypothyroidism(HypoT), 6=Insulin-Dependent Diabetes Mellitus ,
-7=Non-Insulin-Dependent Diabetes Mellitus ,8=History of Circulatory Disease , 
-9=Chronic obstructive pulmonary disease , 10=Dementia, 11=Alzheimer’s, 12= Osteporosis, 
-13=Hypercholestrolemia, 14=Hemorrhagic Cerebrovascular Accident , 15=Duodenal Ulcers,16= Hypertension, 17=Atrial fibrillation "
+4=Hyperthyroidism (HyperT), 5=Hypothyroidism(HypoT), 6=Insulin-Dependent Diabetes Mellitus (IDDM),
+7=Non-Insulin-Dependent Diabetes Mellitus (NIDDM), 8=History of Circulatory Disease (HCD), 
+9=Chronic obstructive pulmonary disease (COPD), 10=Dementia (D), 11=Alzheimer’s (Alz), 12= Osteporosis (Ost), 
+13=Hypercholestrolemia (HC), 14=Hemorrhagic Cerebrovascular Accident (HCVA), 15=Duodenal Ulcers (DU),16= Hypertension (HT), 17=Atrial fibrillation (AF)"
 
 shinyUI(
   navbarPage(
@@ -186,12 +186,12 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "Hyperthyroidism", label="Does the patient have a history with Hyperthyroidism?",
+                                   selectInput(inputId = "Hyperthyroidism", label="Does the patient have a history with Hyperthyroidism (HyperT)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "Hypothyroidism", label="Does the patient have a history with Hypothyroidism?",
+                                   selectInput(inputId = "Hypothyroidism", label="Does the patient have a history with Hypothyroidism (HypoT)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -215,7 +215,7 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "HCD", label="Does the patient have a history with Circulatory Disease?",
+                                   selectInput(inputId = "HCD", label="Does the patient have a history with Circulatory Disease (HCD)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -225,7 +225,7 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "Osteoporosis", label="Does the patient have a history with Osteoporosis?",
+                                   selectInput(inputId = "Osteoporosis", label="Does the patient have a history with Osteoporosis (Ost)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -240,12 +240,12 @@ shinyUI(
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "Dementia", label="Does the patient have a history with Dementia?",
+                                   selectInput(inputId = "Dementia", label="Does the patient have a history with Dementia (D)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
                                    
-                                   selectInput(inputId = "Alz", label="Does the patient have a history with Alzheimers?",
+                                   selectInput(inputId = "Alz", label="Does the patient have a history with Alzheimers (Alz)?",
                                                c("No"=0,
                                                  "Yes"=1
                                                )),
@@ -272,16 +272,16 @@ shinyUI(
                                  actionButton("RFbtn", "Estimate Risk"),
                                  tags$h3(textOutput("RF")),
                                  tags$br(),
-                                 plotOutput("RFVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("RFRiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("RFNNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("RFRiskPlot")
+                                 tags$br(),
+                                 tags$h4(tags$b("Estimating variable importance:")),
+                                 plotOutput("RFVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         
@@ -291,16 +291,14 @@ shinyUI(
                                  actionButton("MIbtn", "Estimate Risk"),
                                  tags$h3(textOutput("MI")),
                                  tags$br(),
-                                 plotOutput("MIVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("MIRiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("MINNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("MIRiskPlot")
+                                 plotOutput("MIVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  
                                  ),
                         
@@ -311,16 +309,16 @@ shinyUI(
                                  actionButton("TIAbtn", "Estimate Risk"),
                                  tags$h3(textOutput("TIA")),
                                  tags$br(),
-                                 plotOutput("TIAVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("TIARiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("TIANNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("TIARiskPlot")
+                                 tags$br(),
+                                 tags$h4(tags$b("Estimating variable importance:")),
+                                 plotOutput("TIAVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  ),
                         
                         
@@ -330,16 +328,16 @@ shinyUI(
                                  actionButton("CDiffbtn", "Estimate Risk"),
                                  tags$h3(textOutput("CDiff")),
                                  tags$br(),
-                                 plotOutput("CDiffVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("CDiffRiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("CDiffNNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("CDiffRiskPlot")
+                                 tags$br(),
+                                 tags$h4(tags$b("Estimating variable importance:")),
+                                 plotOutput("CDiffVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                 
                                  ),
                         
@@ -350,16 +348,16 @@ shinyUI(
                                  actionButton("d90btn", "Estimate Risk"),
                                  tags$h3(textOutput("d90")),
                                  tags$br(),
-                                 plotOutput("d90VarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("d90RiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("d90NNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("d90RiskPlot")
+                                 tags$br(),
+                                 tags$h4(tags$b("Estimating variable importance:")),
+                                 plotOutput("d90VarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  
                                  ),
                         
@@ -369,16 +367,17 @@ shinyUI(
                                  actionButton("CIbtn", "Estimate Risk"),
                                  tags$h3(textOutput("CI")),
                                  tags$br(),
-                                 plotOutput("CIVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("CIRiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("CINNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("CIRiskPlot")
+                                 tags$br(),
+                                 tags$h4(tags$b("Estimating variable importance:")),
+                                 plotOutput("CIVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
+                                 
                           
                                  ),
                         
@@ -388,16 +387,16 @@ shinyUI(
                                  actionButton("Infectionbtn", "Estimate Risk"),
                                  tags$h3(textOutput("Infection")),
                                  tags$br(),
-                                 plotOutput("InfectionVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey)),
+                                 plotOutput("InfectionRiskPlot"),
                                  tags$br(),
-                                 tags$h5(tags$b("About this model:")),
+                                 tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
                                  tags$h5(riskLevels),
                                  tags$h5(tags$b(riskNote)),
-                                 actionButton("InfectionNNbtn", "Show Neural Network"),
-                                 tags$h6("Neural Network Plot generation can take up to 1 minute."),
-                                 plotOutput("InfectionRiskPlot")
+                                 tags$br(),
+                                 tags$h4(tags$b("Estimating variable importance:")),
+                                 plotOutput("InfectionVarImpPlot"),
+                                 tags$h5(tags$b(VarImpKey))
                                  
                         )
                         

@@ -48,68 +48,32 @@ shinyServer(function(input, output) {
   
 #NN Plots -------------------------------------------------
   
-  plotNNRF<- eventReactive(input$RFNNbtn,{
-    plotnet(NNRF, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
-  })
-  
   output$RFRiskPlot <- renderPlot({
-    plotNNRF()
+    plot(NNRF, rep="best")
   })
   
-  
-  plotNNMI<- eventReactive(input$MINNbtn,{
-    plotnet(NNMI, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
-  })
-  
-  output$MIRiskPlot <- renderPlot({
-    plotNNMI()
-  })
-  
-  plotNNd90<- eventReactive(input$d90NNbtn,{
-    plotnet(NNd90, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
+   output$MIRiskPlot <- renderPlot({
+    plot(NNMI, rep="best")
   })
   
   output$d90RiskPlot <- renderPlot({
-    plotNNd90()
-  })
-  
-  plotNNCDiff<- eventReactive(input$CDiffNNbtn,{
-    plotnet(NNCDiff, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
+    plot(NNd90, rep="best")
   })
   
   output$CDiffRiskPlot <- renderPlot({
-    plotNNCDiff()
-  })
-  
-  plotNNCI<- eventReactive(input$CINNbtn,{
-    plotnet(NNCI, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
+    plot(NNCDiff, rep="best")
   })
   
   output$CIRiskPlot <- renderPlot({
-    plotNNCI()
-  })
-  
-  plotNNTIA<- eventReactive(input$TIANNbtn,{
-    plotnet(NNTIA, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
+    plot(NNCI, rep="best")
   })
   
   output$TIARiskPlot <- renderPlot({
-    plotNNTIA()
-  })
-  
-  plotNNInfection<- eventReactive(input$InfectionNNbtn,{
-    plotnet(NNInfection, circle_cex=3, cex_val=.8, pad_x=.4,x_names=c("Age","Sex","CIHD","HyperT","HypoT","IDDM","NIDDM","HCD","COPD","D","Alz","Ost","HC","HCVA","DU","HT","AF"))
-    
+    plot(NNTIA, rep="best")
   })
   
   output$InfectionRiskPlot <- renderPlot({
-    plotNNInfection()
+    plot(NNInfection, rep="best")
   })
 
 
@@ -118,7 +82,7 @@ shinyServer(function(input, output) {
 # Variable Importance Plots--------------------------------------------
 
 output$RFVarImpPlot<- renderPlot({
-  olden(NNRF, x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
+  olden(NNRF,x_lab=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17"))
 })
 
 output$MIVarImpPlot<- renderPlot({
@@ -166,8 +130,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
 
     pred_RF<-compute((NNRF),response)
 
@@ -210,8 +174,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
     
     pred_MI<-compute((NNMI),response)
     
@@ -253,8 +217,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
     
     pred_TIA<-compute((NNTIA),response)
     
@@ -297,8 +261,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
     
     pred_CDiff<-compute((NNCDiff),response)
     
@@ -342,8 +306,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
     
     pred_d90<-compute((NNd90),response)
     
@@ -387,8 +351,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
     
     pred_CI<-compute((NNCI),response)
     
@@ -432,8 +396,8 @@ output$InfectionVarImpPlot<- renderPlot({
     
     age<- ((input$Age-1)/108)
     
-    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "IschemicHeartDisease"=as.numeric(input$CIHD), "Hyperthyroidism"=as.numeric(input$Hyperthyroidism) , "Hypothyroidism"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "CoronaryHeartDisease"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "Dementia"=as.numeric(input$Dementia), "Alzheimers"=as.numeric(input$Alz) ,
-                          "DuodenalUlcers"=as.numeric(input$DU) , "Osteoporosis"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "Hypertension"=as.numeric(input$HT) , "AtrialFibrillation"=as.numeric(input$AF))
+    response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
+                          "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
     
     pred_infection<-compute((NNInfection),response)
     
@@ -674,7 +638,7 @@ output$InfectionVarImpPlot<- renderPlot({
       ggplot(data=modelCompareMI, aes(x=modelCompareMI$Acc,y=modelCompareMI$Sen,size=3, color=modelCompareMI$model))+ 
         scale_size(guide="none")+
         geom_point() + 
-        xlim(40,100)+ylim(45,65)+
+        xlim(40,100)+ylim(40,70)+
         geom_vline(xintercept = 70) + 
         geom_hline(yintercept = 55) +
         xlab("Accuracy")+
