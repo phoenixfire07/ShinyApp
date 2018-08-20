@@ -91,8 +91,8 @@ shinyUI(
                         tags$h1(tags$b(div(style="text-align:center;","Welcome to the Total Hip Replacement Risk Assessment Application")),tags$br()),
                         div(
                           style=
-                            "width:75% ; 
-                            height:380px; 
+                            "width:280px; 
+                            height:500px; 
                             background-image: url(THR.jpg);
                             background-size:cover;
                             background-repeat: no-repeat;

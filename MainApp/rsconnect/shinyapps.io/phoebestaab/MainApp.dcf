@@ -5,8 +5,8 @@ account: phoebestaab
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 387700
-bundleId: 1544188
+bundleId: 1544972
 url: https://phoebestaab.shinyapps.io/MainApp/
-when: 1534769278.63142
+when: 1534790343.16187
 asMultiple: FALSE
 asStatic: FALSE
