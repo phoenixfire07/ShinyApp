@@ -21,19 +21,11 @@ aboutRisk<-
   high-risk cases. The single hidden layer neural network below was developed specifically for this complication using the neuralnet package
   and is the basis of the risk estimations provided. To learn more about the model, please see the About Model section."
 
-
-riskLevels<-
-  "A LOW risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be
-between 0-50%. A HIGH risk outcome indicates that the neural network estimates a patient's probablity of having a complication to be higher
-than the high risk threshold set in the input panel. Any risk probability falling in between is considered MODERATE risk.
-All risk estimates are based on a patients similarity to those who have suffered from compliation in the past."
-
 riskNote<-"
-NOTE: The LOW Risk category was broadly defined as being estimated as 0-50% probability because the models used were trained on an oversampled dataset. In
-such datasets, episodes resulting in complications are oversampled in order to train the Neural Network on a robust selection of 
-positive outcome episodes. In this case, the original dataset had a ratio of roughly 50:1 (No-Complication:Complication). The resampled dataset on which
-the model was trained had a 2:1 ratio. While this improved the classification model substantailly, it can also lead to an over estimation of risk,
-which is why the net has been widened for the LOW risk category. However, this should be taken into account for all risk estimates." 
+NOTE: These models used were trained on an oversampled datasets. In such datasets, episodes resulting in complications are oversampled in order to train the Neural Network on a robust selection of 
+positive outcome episodes. In this case, the original dataset had a ratio of roughly 100:1 (No-Complication:Complication). The resampled dataset on which
+the model was trained had a 1:1 ratio. While this improved the classification model substantailly, it can also lead to an over estimation of risk. In order to adjust for the resulting overesitmation of risk probabilities,
+the generated probablilites were mapped onto the true population using an algorithm proposed by " 
   
 exploringModel<- "The THR Risk Assessment model was trained and tested on a dataset of over 500,000 THR episodes recorded by Hospital Episode
   Statistics (HES), which provides access to inpatient data on all joint replacements performed in the English National Health Service (NHS).
@@ -85,6 +77,10 @@ VarImpKey<-"1=Age, 2=Sex ,3= Chronic Ischemic Heart Disease,
 7=Non-Insulin-Dependent Diabetes Mellitus (NIDDM), 8=History of Circulatory Disease (HCD), 
 9=Chronic obstructive pulmonary disease (COPD), 10=Dementia (D), 11=Alzheimer’s (Alz), 12= Osteporosis (Ost), 
 13=Hypercholestrolemia (HC), 14=Hemorrhagic Cerebrovascular Accident (HCVA), 15=Duodenal Ulcers (DU),16= Hypertension (HT), 17=Atrial fibrillation (AF)"
+
+VarImpHow<-"The Olden or 'Connection Weights' method for deriving variable importance first obtains the product of input-to-hidden layer and hidden-to-output layer
+connection weights between each input neuron and output neuron. It then sums the product accross all hidden neurons in order to derive the estmated variable importance. In essence, this algorithm provides
+a useful and accurate method for quantifying how predictor variables contribute to the estimated risk."
 
 shinyUI(
   navbarPage(
@@ -253,10 +249,7 @@ shinyUI(
                                    selectInput(inputId = "DU", label="Does the patient have a history with Duodenal Ulcers (DU)?",
                                                c("No"=0,
                                                  "Yes"=1
-                                               )),
-                                   sliderInput(inputId = "Threshold", label = "Select Probability Estimate for High Risk. (Ex:
-                                               Selecting 75 means that if the neural network estimates a risk of complication is 75% 
-                                              or greater, the patient will be placed in the 'HIGH' risk category.)", value = 75, min = 55, max=95, step=10)
+                                               ))
                                   
                                 
                                    ),
@@ -273,15 +266,29 @@ shinyUI(
                                  tags$h3(textOutput("RF")),
                                  tags$br(),
                                  plotOutput("RFRiskPlot"),
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                         tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                         " and by Gordon S. Linoff, co-author of ",
+                                         tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                         "The method can be found ",
+                                         tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                         " and ",
+                                         tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                 ),
                                  tags$br(),
                                  tags$h4(tags$b("Estimating variable importance:")),
                                  plotOutput("RFVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                 ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                  ),
                         
                         
@@ -291,14 +298,28 @@ shinyUI(
                                  actionButton("MIbtn", "Estimate Risk"),
                                  tags$h3(textOutput("MI")),
                                  tags$br(),
-                                 plotOutput("MIRiskPlot"),
+                                 plotOutput("MIRiskPlot"), 
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                         tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                         " and by Gordon S. Linoff, co-author of ",
+                                         tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                         "The method can be found ",
+                                         tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                         " and ",
+                                         tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                 ),
                                  plotOutput("MIVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                 ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                  
                                  ),
                         
@@ -310,15 +331,29 @@ shinyUI(
                                  tags$h3(textOutput("TIA")),
                                  tags$br(),
                                  plotOutput("TIARiskPlot"),
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                         tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                         " and by Gordon S. Linoff, co-author of ",
+                                         tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                         "The method can be found ",
+                                         tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                         " and ",
+                                         tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                 ),
                                  tags$br(),
                                  tags$h4(tags$b("Estimating variable importance:")),
                                  plotOutput("TIAVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                         ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                  ),
                         
                         
@@ -329,15 +364,29 @@ shinyUI(
                                  tags$h3(textOutput("CDiff")),
                                  tags$br(),
                                  plotOutput("CDiffRiskPlot"),
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                         tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                         " and by Gordon S. Linoff, co-author of ",
+                                         tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                         "The method can be found ",
+                                         tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                         " and ",
+                                         tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                 ),
                                  tags$br(),
                                  tags$h4(tags$b("Estimating variable importance:")),
                                  plotOutput("CDiffVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                 ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                 
                                  ),
                         
@@ -349,15 +398,29 @@ shinyUI(
                                  tags$h3(textOutput("d90")),
                                  tags$br(),
                                  plotOutput("d90RiskPlot"),
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                         tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                         " and by Gordon S. Linoff, co-author of ",
+                                         tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                         "The method can be found ",
+                                         tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                         " and ",
+                                         tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                 ),
                                  tags$br(),
                                  tags$h4(tags$b("Estimating variable importance:")),
                                  plotOutput("d90VarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                 ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                  
                                  ),
                         
@@ -368,15 +431,29 @@ shinyUI(
                                  tags$h3(textOutput("CI")),
                                  tags$br(),
                                  plotOutput("CIRiskPlot"),
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                         tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                         " and by Gordon S. Linoff, co-author of ",
+                                         tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                         "The method can be found ",
+                                         tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                         " and ",
+                                         tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                 ),
                                  tags$br(),
                                  tags$h4(tags$b("Estimating variable importance:")),
                                  plotOutput("CIVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                 ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                  
                           
                                  ),
@@ -388,15 +465,29 @@ shinyUI(
                                  tags$h3(textOutput("Infection")),
                                  tags$br(),
                                  plotOutput("InfectionRiskPlot"),
+                                 tags$h6("The neural networks for this tool were generated using ", tags$a(href="https://cran.r-project.org/web/packages/neuralnet/neuralnet.pdf", "neuralnet")),
                                  tags$br(),
                                  tags$h4(tags$b("About this model:")),
                                  tags$h5(aboutRisk),
-                                 tags$h5(riskLevels),
-                                 tags$h5(tags$b(riskNote)),
+                                 tags$h5(riskNote,
+                                                tags$a(href="https://www.sas.com/en_us/home.html", "SAS"),
+                                                " and by Gordon S. Linoff, co-author of ",
+                                                tags$a(href="http://www.data-miners.com/bookstore.htm", "Mastering Data Mining."),
+                                                "The method can be found ",
+                                                tags$a(href="http://support.sas.com/kb/22/601.html", "here"),
+                                                " and ",
+                                                tags$a(href="http://blog.data-miners.com/2009/09/adjusting-for-oversampling.html", "here.")
+                                                ),
                                  tags$br(),
                                  tags$h4(tags$b("Estimating variable importance:")),
                                  plotOutput("InfectionVarImpPlot"),
-                                 tags$h5(tags$b(VarImpKey))
+                                 tags$h6("Variable importance was generated using the olden funtion in the",
+                                         tags$a(href="https://cran.r-project.org/web/packages/NeuralNetTools/NeuralNetTools.pdf", "NeuralNetTools"),
+                                         " package. This algorithm was proposed in ",
+                                         tags$a(href="http://depts.washington.edu/oldenlab/wordpress/wp-content/uploads/2013/03/EcologicalModelling_2004.pdf", "Olden et al. 2004")
+                                 ),
+                                 tags$h5(tags$b(VarImpKey)),
+                                 tags$h5(VarImpHow)
                                  
                         )
                         

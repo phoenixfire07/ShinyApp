@@ -112,15 +112,6 @@ output$InfectionVarImpPlot<- renderPlot({
 # End of Variable Importance Plots--------------------------------------------
 
 
-
-
-
-
-
-
-
-
- 
 # Renal Failure Risk Estimate -----------------------------------------------------------
   
   
@@ -141,20 +132,51 @@ output$InfectionVarImpPlot<- renderPlot({
 
     pred_RF<- unname(pred_RF)
     
-    if(pred_RF>threshold){
-      threshold
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
+    RFcommon<-99.321
+    RFrare<-0.679
+    startingPrediction<-pred_RF
+    rareChange<- 50/RFrare
+    commonChange<-50/RFcommon
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    moderatePred<-0.5
+    rareChange<- 50/RFrare
+    commonChange<-50/RFcommon
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/RFrare
+    commonChange<-50/RFcommon
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+    
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of RF post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
     }
-    else if(pred_RF>.50 && pred_RF< threshold)  {
-      threshold
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
+      
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of RF post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
+      
+      output
     }
+    
     else{
-      threshold
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of RF post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
+      
+      output
     }
    
   })
@@ -185,20 +207,51 @@ output$InfectionVarImpPlot<- renderPlot({
     
     pred_MI<- unname(pred_MI)
     
-    if(pred_MI>threshold){
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
+    MIcommon<-99.677
+    MIrare<-0.323
+    startingPrediction<-pred_MI
+    rareChange<- 50/MIrare
+    commonChange<-50/MIcommon
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    moderatePred<-0.5
+    rareChange<- 50/MIrare
+    commonChange<-50/MIcommon
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/MIrare
+    commonChange<-50/MIcommon
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+    
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of MI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
     }
-    else if(pred_MI>.50 && pred_MI<threshold)  {
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of MI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
+      
+      output
     }
+    
     else{
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of MI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
-      
+      output
     }
     
     })
@@ -213,9 +266,7 @@ output$InfectionVarImpPlot<- renderPlot({
   
   textTIA<- eventReactive(input$TIAbtn,{
     
-    threshold<- input$Threshold/100
-    
-    age<- ((input$Age-1)/108)
+   age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
                           "DU"=as.numeric(input$DU) , "Ost"=as.numeric(input$Osteoporosis) , "HC"=as.numeric(input$HC) , "HCVA"=as.numeric(input$HCVA) , "HT"=as.numeric(input$HT) , "AF"=as.numeric(input$AF))
@@ -228,21 +279,51 @@ output$InfectionVarImpPlot<- renderPlot({
     
     pred_TIA<- unname(pred_TIA)
     
-    if(pred_TIA>threshold){
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
+    TIAcommon<-99.913
+    TIArare<-0.087
+    startingPrediction<-pred_TIA
+    rareChange<- 50/TIArare
+    commonChange<-50/TIAcommon
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    moderatePred<-0.5
+    rareChange<- 50/TIArare
+    commonChange<-50/TIAcommon
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/TIArare
+    commonChange<-50/TIAcommon
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+    
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of TIA post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
     }
-    else if(pred_TIA>.50 && pred_TIA<threshold)  {
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of TIA post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
+      output
     }
+    
     else{
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of TIA post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
-      
+      output
     }
     
     })
@@ -257,8 +338,6 @@ output$InfectionVarImpPlot<- renderPlot({
   
   textCDiff<- eventReactive(input$CDiffbtn,{
     
-    threshold<- input$Threshold/100
-    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
@@ -272,20 +351,52 @@ output$InfectionVarImpPlot<- renderPlot({
     
     pred_CDiff<- unname(pred_CDiff)
     
-    if(pred_CDiff>threshold){
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
+    
+    CDiffcommon<-99.928
+    CDiffrare<-0.072
+    startingPrediction<-pred_CDiff
+    rareChange<- 50/CDiffrare
+    commonChange<-50/CDiffcommon
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    moderatePred<-0.5
+    rareChange<- 50/CDiffrare
+    commonChange<-50/CDiffcommon
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/CDiffrare
+    commonChange<-50/CDiffcommon
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+    
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of CDiff post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
     }
-    else if(pred_CDiff>.50 && pred_CDiff<threshold)  {
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of CDiff post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
+      output
     }
+    
     else{
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category."
-      
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of CDiff post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
+    
+      output
     }
     
     })
@@ -302,8 +413,6 @@ output$InfectionVarImpPlot<- renderPlot({
   
   textd90<- eventReactive(input$d90btn,{
     
-    threshold<- input$Threshold/100
-    
     age<- ((input$Age-1)/108)
     
     response<- data.frame("Age"=as.numeric(age), "Sex"=as.numeric(input$Sex) , "CIHD"=as.numeric(input$CIHD), "HyperT"=as.numeric(input$Hyperthyroidism) , "HypoT"=as.numeric(input$Hypothyroidism) , "IDDM"=as.numeric(input$IDDM) , "NIDDM"=as.numeric(input$NIDDM) , "HCD"=as.numeric(input$HCD), "COPD"=as.numeric(input$COPD) , "D"=as.numeric(input$Dementia), "Alz"=as.numeric(input$Alz) ,
@@ -317,24 +426,53 @@ output$InfectionVarImpPlot<- renderPlot({
     
     pred_d90<- unname(pred_d90)
     
-    if(pred_d90>threshold){
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
-    }
-    else if(pred_d90>.50 && pred_d90<threshold)  {
-      
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
-      
-    }
+    died90common<-99.713
+    died90rare<-0.286
+    startingPrediction<-pred_d90
+    rareChange<- 50/died90rare
+    commonChange<-50/died90common
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
     
+    moderatePred<-0.5
+    rareChange<- 50/died90rare
+    commonChange<-50/died90common
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/died90rare
+    commonChange<-50/died90common
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+   
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of death 90 days post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
+    }
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
+
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of death 90 days post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
+      
+      output
+    }
+
     else{
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of death 90 days post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
-      
+      output
     }
-    
+
     })
   
   output$d90 <- renderText({
@@ -362,21 +500,51 @@ output$InfectionVarImpPlot<- renderPlot({
     
     pred_CI<- unname(pred_CI)
     
-    if(pred_CI>threshold){
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
+    CIcommon<-99.235
+    CIrare<-0.765
+    startingPrediction<-pred_CI
+    rareChange<- 50/CIrare
+    commonChange<-50/CIcommon
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    moderatePred<-0.5
+    rareChange<- 50/CIrare
+    commonChange<-50/CIcommon
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/CIrare
+    commonChange<-50/CIcommon
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+    
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of CI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
     }
-    else if(pred_CI>.50 && pred_CI<threshold)  {
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of CI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
+      output
     }
+    
     else{
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category. "
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of CI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
-      
+      output
     }
     
     })
@@ -407,22 +575,53 @@ output$InfectionVarImpPlot<- renderPlot({
     
     pred_infection<- unname(pred_infection)
     
-    if(pred_infection>threshold){
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      HIGH risk category."
+    infectioncommon<-99.026
+    infectionrare<-0.974
+    startingPrediction<-pred_infection
+    rareChange<- 50/infectionrare
+    commonChange<-50/infectioncommon
+    rareAdjusted<-startingPrediction/rareChange
+    commonAdjusted<-(1-startingPrediction)/commonChange
+    finalprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    moderatePred<-0.5
+    rareChange<- 50/infectionrare
+    commonChange<-50/infectioncommon
+    rareAdjusted<-moderatePred/rareChange
+    commonAdjusted<-(1-moderatePred)/commonChange
+    moderateprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)), digits = 3)
+    
+    highPred<-.75
+    rareChange<- 50/infectionrare
+    commonChange<-50/infectioncommon
+    rareAdjusted<-highPred/rareChange
+    commonAdjusted<-(1-highPred)/commonChange
+    highprediction<-round(100*(rareAdjusted/(rareAdjusted+commonAdjusted)),digits = 3)
+    
+    
+    if(finalprediction>highprediction){
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of infection post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
+      output
     }
-    else if(pred_infection>.50 && pred_infection<threshold)  {
+    else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      MODERATE risk category."
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of infection post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
+      output
     }
+    
     else{
-      "Based on the patient information provided, the neural network estimates this patient to be in the
-      LOW risk category. "
+      output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
+                     "% probability of infection post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
-      
+      output
     }
+    
     
     })
   
@@ -553,49 +752,49 @@ output$InfectionVarImpPlot<- renderPlot({
     if(input$yearlyStats=="yearlyTotal"){
       
       ggplot(aes(y=years$total,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "THR Surgeries as recorded by the HES in NHS from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyTIA"){
       ggplot(aes(y=years$TIA,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of TIA resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "Percentage of total THR patients in the NHS that had TIA post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyMI"){
       ggplot(aes(y=years$MI,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of MI resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "Percentage of total THR patients in the NHS that had MI post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyRF"){
       ggplot(aes(y=years$RF,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of RF resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "Percentage of total THR patients in the NHS that had RF post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyCDiff"){
       ggplot(aes(y=years$CDiff,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of CDiff resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "TPercentage of total THR patients in the NHS that had CDiff post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyd90"){
       ggplot(aes(y=years$died90,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of Death within 90 days resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "Percentage of total THR patients in the NHS that died 90 days post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyCI"){
       ggplot(aes(y=years$CI,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of Chest Infection resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "Percentage of total THR patients in the NHS that had CI post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
     
     else if(input$yearlyStats=="yearlyInfection"){
       ggplot(aes(y=years$infection,x=years$year),data=years)+ geom_line(color="darkblue")+geom_point(color="darkblue")+
-        labs(title= "Total cases of Chest Infection resulting from THR Surgeries in NHS from 2005-2014", x="Year",y="Number Episodes")+
+        labs(title= "Percentage of total THR patients in the NHS that had Infection post-surgery from 2005-2014", x="Year",y="Number Episodes")+
         scale_x_continuous(breaks=seq(2005,2014,1))
     }
   })  
