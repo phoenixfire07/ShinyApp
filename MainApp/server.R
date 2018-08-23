@@ -1,11 +1,8 @@
-
 library(shiny)
 library(neuralnet)
 library(caret)
 library(ggplot2)
 library(NeuralNetTools)
-
-
 
 shinyServer(function(input, output) {
 # importing neural network models 
@@ -45,7 +42,6 @@ shinyServer(function(input, output) {
   modelCompared90 <- read.csv("csvs/died90Models.csv")
   modelCompareInfection <- read.csv("csvs/InfectionModels.csv")
  
-  
 #NN Plots -------------------------------------------------
   
   output$RFRiskPlot <- renderPlot({

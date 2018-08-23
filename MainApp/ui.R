@@ -15,14 +15,12 @@ AboutNNTrain<- "All neural networks were trained on a dataset of over 400,000 TH
 Based on this patient data, the models were then tested on a dataset over 150,000 patient records in order to estimate patient risk. The results
 of this test are shown here."
 
-aboutRisk<- 
-  "This risk profile has been estimated using a neural networks trained on a dataset of over 400,000 THR surgery instances. 
+aboutRisk<- "This risk profile has been estimated using a neural networks trained on a dataset of over 400,000 THR surgery instances. 
   Patient demographics and comorbidies have been weighted using backpropogation ensuring high overall accuracy and identification of 
   high-risk cases. The single hidden layer neural network below was developed specifically for this complication using the neuralnet package
   and is the basis of the risk estimations provided. To learn more about the model, please see the About Model section."
 
-riskNote<-"
-NOTE: These models used were trained on an oversampled datasets. In such datasets, episodes resulting in complications are oversampled in order to train the Neural Network on a robust selection of 
+riskNote<-"NOTE: These models used were trained on an oversampled datasets. In such datasets, episodes resulting in complications are oversampled in order to train the Neural Network on a robust selection of 
 positive outcome episodes. In this case, the original dataset had a ratio of roughly 100:1 (No-Complication:Complication). The resampled dataset on which
 the model was trained had a 1:1 ratio. While this improved the classification model substantailly, it can also lead to an over estimation of risk. In order to adjust for the resulting overesitmation of risk probabilities,
 the generated probablilites were mapped onto the true population using an algorithm proposed by " 
