@@ -154,14 +154,14 @@ output$InfectionVarImpPlot<- renderPlot({
     
     if(finalprediction>highprediction){
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of RF post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Renal Failure within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
       output
     }
     else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of RF post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Renal Failure within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
       output
@@ -169,7 +169,7 @@ output$InfectionVarImpPlot<- renderPlot({
     
     else{
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of RF post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Renal Failure within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
       output
@@ -229,14 +229,14 @@ output$InfectionVarImpPlot<- renderPlot({
     
     if(finalprediction>highprediction){
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of MI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Myocardial Infarction within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
       output
     }
     else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of MI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Myocardial Infarction within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
       output
@@ -244,7 +244,7 @@ output$InfectionVarImpPlot<- renderPlot({
     
     else{
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of MI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Myocardial Infarction within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
       output
@@ -301,14 +301,14 @@ output$InfectionVarImpPlot<- renderPlot({
     
     if(finalprediction>highprediction){
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of TIA post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Transient Ischemic Attack within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
       output
     }
     else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of TIA post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Transient Ischemic Attack within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
       output
@@ -316,7 +316,7 @@ output$InfectionVarImpPlot<- renderPlot({
     
     else{
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of TIA post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Transient Ischemic Attack within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
       output
@@ -374,14 +374,14 @@ output$InfectionVarImpPlot<- renderPlot({
     
     if(finalprediction>highprediction){
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of CDiff post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Clostridium Difficile post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
       output
     }
     else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of CDiff post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Clostridium Difficile post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
       output
@@ -389,7 +389,7 @@ output$InfectionVarImpPlot<- renderPlot({
     
     else{
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of CDiff post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Clostridium Difficile post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
     
       output
@@ -522,14 +522,14 @@ output$InfectionVarImpPlot<- renderPlot({
     
     if(finalprediction>highprediction){
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of CI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Chest Infection within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",highprediction,"% is considered to be HIGH risk compared to the average population.", sep="")
       output
     }
     else if(finalprediction>moderateprediction && finalprediction<highprediction)  {
       
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of CI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Chest Infection within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk above ",moderateprediction, "% and below ",highprediction,"% is considered to be MODERATE risk compared to the average population.", sep="")
       
       output
@@ -537,7 +537,7 @@ output$InfectionVarImpPlot<- renderPlot({
     
     else{
       output <-paste("Based on the information provided, the patient is estimated to have a ", finalprediction, 
-                     "% probability of CI post surgery. Since the average risk for this complication is ",moderateprediction, 
+                     "% probability of Chest Infection within 30 days post surgery. Since the average risk for this complication is ",moderateprediction, 
                      "%, any risk below ",moderateprediction, "% is considered to be LOW risk compared to the average population.", sep="")
       
       output

@@ -31,7 +31,7 @@
   },
   "output": {
     "yearlyStatsPlot": {
-      "src": "[image data sha1: 85f11a152b2521fe6615492614a207913e6e0d55]",
+      "src": "[image data sha1: b840fb8325c3bea4ca3ca071f1f46d81736c5a21]",
       "width": 591,
       "height": 400,
       "coordmap": [
@@ -51,15 +51,15 @@
           "domain": {
             "left": 2004.55,
             "right": 2014.45,
-            "bottom": 65.7,
-            "top": 248.3
+            "bottom": 0.1615,
+            "top": 0.5685
           },
           "mapping": {
             "x": "years$year",
             "y": "years$MI"
           },
           "range": {
-            "left": 40.8316226593436,
+            "left": 38.3824039093436,
             "right": 585.520547945206,
             "bottom": 369.795721717064,
             "top": 24.0290131340161

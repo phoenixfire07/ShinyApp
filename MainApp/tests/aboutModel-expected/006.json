@@ -1,7 +1,7 @@
 {
   "input": {
-    "AboutModel": "aboutTIA",
-    "aboutModelBtn": 0,
+    "AboutModel": "aboutCI",
+    "aboutModelBtn": 6,
     "AF": "0",
     "Age": 65,
     "Alz": "0",
@@ -27,11 +27,11 @@
     "RFbtn": 0,
     "Sex": "0.1111111111",
     "TIAbtn": 0,
-    "yearlyStats": "yearlyInfection"
+    "yearlyStats": "yearlyTotal"
   },
   "output": {
     "yearlyStatsPlot": {
-      "src": "[image data sha1: 1ff58158bb72f97db932733d7ccf5461497d1892]",
+      "src": "[image data sha1: 335e6a7e9af29bed63a4e766c471e2994e0f183e]",
       "width": 591,
       "height": 400,
       "coordmap": [
@@ -51,15 +51,15 @@
           "domain": {
             "left": 2004.55,
             "right": 2014.45,
-            "bottom": 0.8325,
-            "top": 1.4375
+            "bottom": 30879.6,
+            "top": 68530.4
           },
           "mapping": {
             "x": "years$year",
-            "y": "years$infection"
+            "y": "years$total"
           },
           "range": {
-            "left": 38.3824039093436,
+            "left": 50.6199031464041,
             "right": 585.520547945206,
             "bottom": 369.795721717064,
             "top": 24.0290131340161

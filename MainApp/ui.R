@@ -7,69 +7,75 @@ library(caret)
 # About the model--------------------------------
 
 AboutNN <-"A single hidden layer neural network was selected as the model for the THR Risk Assessment Application. The model performed relatively well
-when compared to alternatives for two important parameter: Accuracy and Sensitivity. For a detailed comparison to other models, please see the Model Selection section.
+when compared to alternatives for two important parameters: Accuracy and Sensitivity. For a detailed comparison to other models, please see the ‘Model Selection’ section.
 When using a tool based on a predictive model, it is important to understand the overall reliability of the model. As such, a detailed description 
-of the Accuracy, Sensitivity and Specificty of the model for each complication is provided."
+of the Accuracy, Sensitivity and Specificity of the model for each complication is provided."
 
 AboutNNTrain<- "All neural networks were trained on a dataset of over 400,000 THR cases including patient demographics and comorbidies.
 Based on this patient data, the models were then tested on a dataset over 150,000 patient records in order to estimate patient risk. The results
 of this test are shown here."
 
-aboutRisk<- "This risk profile has been estimated using a neural networks trained on a dataset of over 400,000 THR surgery instances. 
-  Patient demographics and comorbidies have been weighted using backpropogation ensuring high overall accuracy and identification of 
-  high-risk cases. The single hidden layer neural network below was developed specifically for this complication using the neuralnet package
-  and is the basis of the risk estimations provided. To learn more about the model, please see the About Model section."
+aboutRisk<- "This risk profile has been estimated using a neural network trained on a dataset of over 400,000 THR surgery instances. 
+  Patient demographics and comorbidies have been weighted using backpropagation ensuring high overall accuracy and identification of 
+high-risk cases. The single hidden layer neural network below was developed specifically for this complication using the neuralnet package
+and is the basis of the risk estimations provided. To learn more about the model, please see the ‘About Model’ section."
 
-riskNote<-"NOTE: These models used were trained on an oversampled datasets. In such datasets, episodes resulting in complications are oversampled in order to train the Neural Network on a robust selection of 
-positive outcome episodes. In this case, the original dataset had a ratio of roughly 100:1 (No-Complication:Complication). The resampled dataset on which
-the model was trained had a 1:1 ratio. While this improved the classification model substantailly, it can also lead to an over estimation of risk. In order to adjust for the resulting overesitmation of risk probabilities,
-the generated probablilites were mapped onto the true population using an algorithm proposed by " 
+riskNote<-"NOTE: The models used were trained on an oversampled datasets. In such datasets, episodes resulting in complications are oversampled in order to train the neural network on a robust selection of 
+positive outcome episodes. In this case, the original dataset had a ratio of roughly 100:1 (No-Complication: Complication). The resampled dataset on which
+the model was trained had a 1:1 ratio. While this improved the classification model substantially, it can also lead to an over estimation of risk. In order to adjust for the resulting overestimation of risk probabilities,
+the generated probabilities were mapped onto the true population using an algorithm proposed by "
+
   
-exploringModel<- "The THR Risk Assessment model was trained and tested on a dataset of over 500,000 THR episodes recorded by Hospital Episode
+exploringModel<- "The THR Risk Assessment model was trained and tested on a dataset of over 400,000 THR episodes recorded by Hospital Episode
   Statistics (HES), which provides access to inpatient data on all joint replacements performed in the English National Health Service (NHS).
-  Overall, the percentage of surgeries that result in complications are under 2%. In order to create a model that would accurately detect a majority
-of episodes resulting in complications, resampling was done using SMOTE in order to oversample cases in which complications occurred post surgery. While this
+Overall, the percentage of surgeries that result in complications is under 2%. In order to create a model that would accurately detect the majority
+of episodes resulting in complications, resampling was done using SMOTE in order to oversample cases in which complications occurred post-surgery. While this
 can marginally decrease the overall accuracy of the model, it ensures that the model can identify positive complication outcomes more readily."
 
+
 aboutCM<- "After the neural network model is trained on a subset of the original dataset, it is tested on a test set. The results of
-these test can provide information on how well the model predicts the likelyhood of complications. When the model runs through the test set,
-it makes a guess at whether a particular episode resulted in a complication given the demographics and comorbidies of a patient. When it has run
-through all of the episode, a confusion matrix is created. This indicates the number of true Positive (TP) and trues negatives (TN) produced, as well as the number
-of false positives and false negatives.  To assess the model for each complication, three key charachteristics are analysed: Accuracy, Specificity, and Sensitivity."
+these tests can provide information on how well the model predicts the likelihood of complications. When the model runs through the test set,
+it makes a prediction at whether a particular episode resulted in a complication given the demographics and comorbidies of a patient. When it has run
+through all of the episodes, a confusion matrix is created. This indicates the number of true positives (TP) and trues negatives (TN) produced, as well as the number
+of false positives and false negatives.  To assess the model for each complication, three key characteristics are analyzed: Accuracy, Specificity, and Sensitivity."
+
   
 accuracy<- "Classification accuracy is defined as the number of correct predictions out of the total number of predictions (TP+TN/Total).
-We aim to maintain an accuracy no lower than 75%."
+We aim to maintain an accuracy no lower than 70%."
+
 
 specificity<- "Classification specificity is also known as the true negative rate. This is the number of true negatives identified out of 
-the total number of true negatives in the test set (TN/Total Negatives). Specificty rates below 75% were not acceptable for these models."
+the total number of true negatives in the test set (TN/Total Negatives). Specificity rates below 70% were not acceptable for these models."
 
-sensitivity<- "Classification sensitivity is perhaps the most important charchteristic for the THR Risk Assessment App. This 
-is known as the true positive rate, identifying the true positive predictions out of the total number of positive outcomes in the test set (TP/Total Positive)
-This parameter is not usually predicted as well as accuracy or specificty because it requires idenitifying unique traits in patients that
+sensitivity<- "Classification sensitivity is perhaps the most important characteristic for the THR Risk Assessment App. This 
+is known as the true positive rate, identifying the true positive predictions out of the total number of positive outcomes in the test set (TP/Total Positive).
+This parameter is not usually predicted as well as accuracy or specificity because it requires identifying unique traits in patients that
 had a complication. Many complications tested resulted in extremely low true positive rates and therefore, only those with sensitivities above 
-40% were used in the THR Risk Assessment App"
+40% were used in the THR Risk Assessment App."
 
 aboutTHRbackground<-
   "Total Hip Replacement (THR) is a highly successful and cost-effective intervention with over 75,000 procedures performed a year. Major complications occur in 2% 
 of procedures with the majority occurring in the first four post-operative days. Hospital episode statistics (HES) provides access to inpatient data on all joint 
-replacements performed in the English National Health Service (NHS). Novel methods of analysing this data can allow clinicians to plan intervention in the safest environment 
+replacements performed in the English National Health Service (NHS). Novel methods of analyzing this data can allow clinicians to plan intervention in the safest environment 
 based on bespoke peri- and post-operative care pathways. This has the potential to reduce morbidity and mortality, reduce healthcare costs through improved efficiency and safe care, 
-and maximise benefit from THR. "
+and maximize benefit from THR. "
+
 
 appObjective<-
-  "The aim of this tool is to create a web-based application for calculating risk of complications following hip replacement. 
+  "The aim of this tool is to create a web-based application for calculating risk of complications following single total hip replacement surgery. 
 Entry of simple patient demographics and co-morbidity data will produce an estimated risk profile for a range of  complications, and will enable the clinician to tailor peri- and post-operative 
 needs, and allow  bespoke, ‘patient-specific’ consent."
 
 riskAssessment <-
-  "The 'Risk Assessment' tool can be use to obtain a risk profile for several different complications based on patient demographics
+  "The 'Risk Assessment' tool can be used to obtain a risk profile for several different complications based on patient demographics
 and comorbidities. To use this tool, simply enter patient information in the information panel and click 'Estimate Risk' in each 
 complication tab to generate a risk profile for each complication."
+
 
 exploreModel<-
   "In order to understand the underlying predictive model from which risk profile's are derived, further information regarding the characteristics of the neural networks (NNs) used 
 as well as a comparison between NNs and other predictive modeling methods can be found in the 'About Model' and 'Model Selection' sections of the App."
-  
+
 VarImpKey<-"1=Age, 2=Sex ,3= Chronic Ischemic Heart Disease, 
 4=Hyperthyroidism (HyperT), 5=Hypothyroidism(HypoT), 6=Insulin-Dependent Diabetes Mellitus (IDDM),
 7=Non-Insulin-Dependent Diabetes Mellitus (NIDDM), 8=History of Circulatory Disease (HCD), 
@@ -77,7 +83,7 @@ VarImpKey<-"1=Age, 2=Sex ,3= Chronic Ischemic Heart Disease,
 13=Hypercholestrolemia (HC), 14=Hemorrhagic Cerebrovascular Accident (HCVA), 15=Duodenal Ulcers (DU),16= Hypertension (HT), 17=Atrial fibrillation (AF)"
 
 VarImpHow<-"The Olden or 'Connection Weights' method for deriving variable importance first obtains the product of input-to-hidden layer and hidden-to-output layer
-connection weights between each input neuron and output neuron. It then sums the product accross all hidden neurons in order to derive the estmated variable importance. In essence, this algorithm provides
+connection weights between each input neuron and output neuron. It then sums the product across all hidden neurons in order to derive the estimated variable importance. In essence, this algorithm provides
 a useful and accurate method for quantifying how predictor variables contribute to the estimated risk."
 
 shinyUI(
