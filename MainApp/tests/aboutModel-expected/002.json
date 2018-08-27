@@ -1,7 +1,7 @@
 {
   "input": {
-    "AboutModel": "aboutMI",
-    "aboutModelBtn": 2,
+    "AboutModel": "aboutTIA",
+    "aboutModelBtn": 1,
     "AF": "0",
     "Age": 65,
     "Alz": "0",

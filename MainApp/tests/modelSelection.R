@@ -1,4 +1,4 @@
-app <- ShinyDriver$new("../", loadTimeout = 10000)
+app <- ShinyDriver$new("../")
 app$snapshotInit("modelSelection")
 
 app$snapshot()

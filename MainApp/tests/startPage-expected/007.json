@@ -27,11 +27,11 @@
     "RFbtn": 0,
     "Sex": "0.1111111111",
     "TIAbtn": 0,
-    "yearlyStats": "yearlyInfection"
+    "yearlyStats": "yearlyCI"
   },
   "output": {
     "yearlyStatsPlot": {
-      "src": "[image data sha1: 1ff58158bb72f97db932733d7ccf5461497d1892]",
+      "src": "[image data sha1: ce6596ea2bcac5fa9fc97ddeecaf5a28133484ca]",
       "width": 591,
       "height": 400,
       "coordmap": [
@@ -51,12 +51,12 @@
           "domain": {
             "left": 2004.55,
             "right": 2014.45,
-            "bottom": 0.8325,
-            "top": 1.4375
+            "bottom": 0.5,
+            "top": 0.94
           },
           "mapping": {
             "x": "years$year",
-            "y": "years$infection"
+            "y": "years$CI"
           },
           "range": {
             "left": 38.3824039093436,

@@ -1,7 +1,7 @@
 {
   "input": {
-    "AboutModel": "aboutCDiff",
-    "aboutModelBtn": 4,
+    "AboutModel": "aboutRF",
+    "aboutModelBtn": 3,
     "AF": "0",
     "Age": 65,
     "Alz": "0",

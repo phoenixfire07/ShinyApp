@@ -1,11 +1,11 @@
-app <- ShinyDriver$new("../", loadTimeout = 10000)
+app <- ShinyDriver$new("../")
 app$snapshotInit("riskAssessment")
 
-app$setInputs(Age = 81)
+app$snapshot()
+app$setInputs(Age = 84)
 app$setInputs(CIHD = "1")
 app$setInputs(Hypothyroidism = "1")
 app$setInputs(RFbtn = "click")
-app$snapshot()
 app$snapshot()
 app$setInputs(MIbtn = "click")
 app$snapshot()
@@ -18,7 +18,4 @@ app$snapshot()
 app$setInputs(CIbtn = "click")
 app$snapshot()
 app$setInputs(Infectionbtn = "click")
-
-
-
-
+app$snapshot()

@@ -27,11 +27,11 @@
     "RFbtn": 0,
     "Sex": "0.1111111111",
     "TIAbtn": 0,
-    "yearlyStats": "yearlyMI"
+    "yearlyStats": "yearlyTIA"
   },
   "output": {
     "yearlyStatsPlot": {
-      "src": "[image data sha1: b840fb8325c3bea4ca3ca071f1f46d81736c5a21]",
+      "src": "[image data sha1: 0175c4f1e09bfeead47fc7e7c7843fcc7196bd85]",
       "width": 591,
       "height": 400,
       "coordmap": [
@@ -51,15 +51,15 @@
           "domain": {
             "left": 2004.55,
             "right": 2014.45,
-            "bottom": 0.1615,
-            "top": 0.5685
+            "bottom": 0.0235,
+            "top": 0.1665
           },
           "mapping": {
             "x": "years$year",
-            "y": "years$MI"
+            "y": "years$TIA"
           },
           "range": {
-            "left": 38.3824039093436,
+            "left": 43.2765441528738,
             "right": 585.520547945206,
             "bottom": 369.795721717064,
             "top": 24.0290131340161

@@ -27,11 +27,11 @@
     "RFbtn": 0,
     "Sex": "0.1111111111",
     "TIAbtn": 0,
-    "yearlyStats": "yearlyCI"
+    "yearlyStats": "yearlyd90"
   },
   "output": {
     "yearlyStatsPlot": {
-      "src": "[image data sha1: ce6596ea2bcac5fa9fc97ddeecaf5a28133484ca]",
+      "src": "[image data sha1: fa531b7c4c51ad4162064361f30ccd40ac84ee09]",
       "width": 591,
       "height": 400,
       "coordmap": [
@@ -51,12 +51,12 @@
           "domain": {
             "left": 2004.55,
             "right": 2014.45,
-            "bottom": 0.5,
-            "top": 0.94
+            "bottom": 0.129,
+            "top": 0.591
           },
           "mapping": {
             "x": "years$year",
-            "y": "years$CI"
+            "y": "years$died90"
           },
           "range": {
             "left": 38.3824039093436,
