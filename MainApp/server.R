@@ -1160,58 +1160,40 @@ shinyServer(function(input, output) {
   
   output$riskAssessment<-renderText({textst1<-toString(text$riskAssessment) 
   textst1})
-  
   output$aboutNN<-renderText({textst2<-toString(text$AboutNN)
   textst2})
-  
   output$exploreModel<-renderText({textst3<-toString(text$exploreModel)
   textst3})
-  
   output$appObjective<-renderText({textst4<-toString(text$appObjective)
   textst4 })
-  
   output$exploringModel<-renderText({textst5<-toString(text$exploringModel)
   textst5})
-  
   output$accuracy<-renderText({textst6<-toString(text$Accuracy)
   textst6})
-  
   output$specificity<-renderText({textst7<-toString(text$Specificity)
   textst7})
-  
   output$sensitivity<-renderText({textst8<-toString(text$Sensitivity)
   textst8})
-  
   output$aboutNNTrain<-renderText({textst9<-toString(text$AboutNNTrain)
   textst9})
-  
   output$aboutRisk<-renderText({textst10<-toString(text$aboutRisk)
   textst10 })
-  
   output$riskNote<-renderText({textst11<-toString(text$riskNote)
   textst11})
-  
   output$aboutCM<-renderText({textst12<-toString(text$aboutCM)
   textst12})
-  
   output$aboutTHRbackground<-renderText({textst13<-toString(text$aboutTHRbackground)
   textst13})
-  
   output$VarImpKey<-renderText({textst14<-toString(text$VarImpKey)
   textst14})
-  
   output$VarImpHow<-renderText({textst15<-toString(text$VarImpHow)
   textst15})
-  
   output$plotkey<-renderText({textst16<-toString(text$plotkey)
   textst16})
-  
   output$NN1<-renderText({textst17<-toString(text$NN1)
   textst17 })
-  
   output$req<-renderText({textst18<-toString(text$req)
   textst18 })
-  
   output$selection<-renderText({textst19<-toString(text$selection)
   textst19 })
 })
